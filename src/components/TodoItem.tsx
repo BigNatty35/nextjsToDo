@@ -1,7 +1,7 @@
 type TodoItemProps = {
   id: string,
   title: string,
-  complete: Boolean
+  complete: boolean
 }
 
 export function TodoItem({ id, title, complete }: TodoItemProps) {
