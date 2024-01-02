@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { prisma } from './db';
 import { TodoItem } from '@/components/TodoItem';
+import { redirect } from 'next/navigation';
 
 
 // prisma.todo.create({ data: {title: "test", complete: false}}) 
@@ -14,6 +15,13 @@ async function toggleTodo(id: string, complete: boolean) {
   "use server"
   await prisma.todo.update({where: {id}, data: {complete}})
   console.log(id,complete)
+}
+
+async function deleteTodo(id: string, title: string) {
+  "use server"
+  await prisma.todo.delete({where: {id}})
+  console.log(`Successfully deleted ${title}`)
+  await prisma.$disconnect();
 }
 
 export default async function Home() {
@@ -30,7 +38,7 @@ export default async function Home() {
       </header>
       <ul className="pl-4">
         {todos.map(todo => (
-          <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo}/>
+          <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo}/>
         ))}
       </ul>
     </>   
